@@ -6,15 +6,17 @@ import { SceneHook } from './components/SceneHook';
 
 export const MainReel = () => {
   return (
-    <AbsoluteFill style={{ backgroundColor: '#0A0C10' }}>
+    <AbsoluteFill style={{ backgroundColor: '#07090E' }}>
       <BackgroundGrid />
       <Audio src={staticFile('voiceover.mp3')} />
 
-      <Sequence from={0} durationInFrames={240}>
+      {/* 0s - 4.5s: Hook (135 ഫ്രെയിംസ്) */}
+      <Sequence from={0} durationInFrames={135}>
         <SceneHook />
       </Sequence>
 
-      <Sequence from={240} durationInFrames={300}>
+      {/* 4.5s - 9.0s: Higher Education (135 ഫ്രെയിംസ്) */}
+      <Sequence from={135} durationInFrames={135}>
         <SceneCards
           unit="Higher Education"
           topic="Universities & Regulatory Bodies"
@@ -24,7 +26,8 @@ export const MainReel = () => {
         />
       </Sequence>
 
-      <Sequence from={540} durationInFrames={300}>
+      {/* 9.0s - 13.5s: ICT (135 ഫ്രെയിംസ്) */}
+      <Sequence from={270} durationInFrames={135}>
         <SceneCards
           unit="ICT"
           topic="Hardware, Memory & Generations"
@@ -34,7 +37,8 @@ export const MainReel = () => {
         />
       </Sequence>
 
-      <Sequence from={840} durationInFrames={300}>
+      {/* 13.5s - 18.0s: Communication (135 ഫ്രെയിംസ്) */}
+      <Sequence from={405} durationInFrames={135}>
         <SceneCards
           unit="Communication"
           topic="Media Effects & Mass Comm Theories"
@@ -44,7 +48,8 @@ export const MainReel = () => {
         />
       </Sequence>
 
-      <Sequence from={1140} durationInFrames={300}>
+      {/* 18.0s - 22.5s: Indian Logic (135 ഫ്രെയിംസ്) */}
+      <Sequence from={540} durationInFrames={135}>
         <SceneCards
           unit="Logical Reasoning"
           topic="Hetvabhasa (Fallacies) & Pramanas"
@@ -54,7 +59,8 @@ export const MainReel = () => {
         />
       </Sequence>
 
-      <Sequence from={1440} durationInFrames={360}>
+      {/* 22.5s - 28.0s: Outro / CTA (165 ഫ്രെയിംസ്) */}
+      <Sequence from={675} durationInFrames={165}>
         <SceneCTA />
       </Sequence>
     </AbsoluteFill>
