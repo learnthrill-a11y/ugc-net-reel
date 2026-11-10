@@ -1,0 +1,52 @@
+name: Render Reel with AI Voice
+
+on:
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Ensure public directory exists
+        run: mkdir -p public
+
+      - name: Generate AI Voice (Malayalam)
+        run: |
+          pip install edge-tts
+          python -c "
+          import asyncio
+          import edge_tts
+
+          TEXT = '''UGC NET Paper 1-ൽ മുഴുവൻ സിലബസും കാണാതെ പഠിച്ച് സമയം കളയുകയാണോ? കഴിഞ്ഞ രണ്ട് വർഷത്തെ 961 ചോദ്യങ്ങൾ അനലൈസ് ചെയ്തപ്പോൾ 60 ശതമാനം മാർക്കും വരുന്നത് ചുരുക്കം ചില ടോപ്പിക്കുകളിൽ നിന്നാണ്. ഹയർ എഡ്യൂക്കേഷനിൽ റെഗുലേറ്ററി ബോഡീസിൽ നിന്ന് 37 ചോദ്യങ്ങൾ. ICT മെമ്മറിയിൽ നിന്ന് 36 ചോദ്യങ്ങൾ. മാസ്സ് കമ്മ്യൂണിക്കേഷൻ തിയറികളിൽ നിന്ന് 33 ചോദ്യങ്ങൾ. ഇന്ത്യൻ ലോജിക്കിലെ ഹേത്വാഭാസയിൽ നിന്ന് 28 ചോദ്യങ്ങൾ. ഈ പ്രധാനപ്പെട്ട ടോപ്പിക്കുകളുടെ ഡെയ്‌ലി കോൺസെപ്റ്റ് എക്സ്പ്ലനേഷനായി ഇപ്പോൾ തന്നെ സേവ് ചെയ്ത് ഫോളോ ചെയ്യൂ!'''
+
+          async def main():
+              communicate = edge_tts.Communicate(TEXT, 'ml-IN-MidhunNeural', rate='+10%')
+              await communicate.save('public/voiceover.mp3')
+
+          asyncio.run(main())
+          "
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Render Remotion Video
+        run: npx remotion render PaperOneOverview out/ugc_reel.mp4
+
+      - name: Upload Video Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: finished-reel
+          path: out/ugc_reel.mp4
